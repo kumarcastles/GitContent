@@ -1,0 +1,51 @@
+############################ index.js
+
+import React from 'react';
+import './box.css'
+import ReactDOM from 'react-dom/client';
+import UseEffectAxios from './Hooks/UseEffectAxios';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <UseEffectAxios/>
+  
+);
+
+
+
+############################ UseEfeectAxios.js
+
+import React,{useState,useEffect} from 'react';
+import axios from 'axios'
+
+function UseEffectAxios(props) {
+    const [posts,setposts] = useState([])
+    useEffect(()=>{
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+        .then(res=>{ 
+            console.log(res) 
+            setposts(res.data)
+        })
+        .catch(err=>{console.log(err)})
+    },[])
+    return (
+        <div>
+            <table>
+                <tbody>
+                {
+                    posts.map(post=>
+                        <tr key={post.id}>
+                            <td>{post.id}</td>
+                            <td>{post.title}</td>
+                            <td>{post.body}</td>
+                        </tr>
+                    )
+                    // posts.map(post=><li key={post.id}>{post.title}</li>)
+                }
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+export default UseEffectAxios;
